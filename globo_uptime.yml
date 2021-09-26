@@ -1,0 +1,17 @@
+---
+
+- name: Send a Slack Notification
+  hosts: localhost
+  vars_files:
+    - token.yml
+    - msg.yml
+  tasks:
+  - name: Fetch uptime
+    command: 'uptime -p'
+    register: output
+  - name: Send notification
+    community.general.slack:
+      channel: '#automation'
+      token: '{{ token }}'
+      color: good
+      msg: 'The system has been {{ output.stdout_lines }}'

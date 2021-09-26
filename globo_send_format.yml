@@ -1,0 +1,29 @@
+---
+
+- name: Send a Slack Notification
+  hosts: localhost
+  vars_files:
+    - token.yml
+    - msg.yml
+  tasks:
+  - name: Send a simple message
+    community.general.slack:
+      token: '{{token}}'
+      msg: '{{msg}}' 
+      blocks: 
+       - type: section
+         text: 
+           type: plain_text
+           text: "This is a plain text section block."
+           emoji: true
+       - type: section
+         text: 
+           type: mrkdwn
+           text: "_Section block_ with a users select"
+         accessory: 
+           type: users_select
+           placeholder: 
+             type: plain_text 
+             text: "Select User"
+             emoji: true
+           action_id: users_select-action

@@ -1,0 +1,12 @@
+---
+
+- name: Send a Slack Notification
+  hosts: localhost
+  vars_files:
+    - token.yml
+    - msg.yml
+  tasks:
+  - name: Send a simple message
+    community.general.slack:
+      token: '{{token}}'
+      msg: '{{msg}}' 

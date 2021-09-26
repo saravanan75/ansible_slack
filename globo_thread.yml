@@ -1,0 +1,22 @@
+---
+
+- name: Send a Slack Notification
+  hosts: localhost
+  vars_files:
+    - bot_token.yml
+    - msg.yml
+  tasks:
+  - name: Send a simple message
+    community.general.slack:
+      channel: '#automation'
+      token: '{{ bot }}' 
+      msg: '{{msg}}' 
+    register: output
+  - debug: msg="{{ output }}"
+  - name: Add related information
+    community.general.slack:
+      channel: '{{ output.channel }}'
+      token: '{{ bot }}'
+      thread_id: '{{ output.ts }}'
+      color: good
+      msg: 'Thanks. I just visited the page'
